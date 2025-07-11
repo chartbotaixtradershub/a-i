@@ -1,152 +1,96 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Chartbotaixtrade Dashboard</title>
+  <meta charset="UTF-8">
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    body {
-      margin:0;
-      background:#0f172a;
-      color:#fff;
-      font-family:sans-serif;
-      text-align:center;
-      padding:20px;
-    }
-    h1 {
-      font-size:32px;
-      margin-bottom:20px;
-      color:#3b82f6;
-    }
-    p {
-      font-size:16px;
-      margin-bottom:20px;
-      color:#cbd5e1;
-    }
+    body {margin:0; background:#0f172a; color:#fff; font-family:sans-serif; padding:20px;}
+    h1 {font-size:32px; color:#facc15; margin-bottom:20px;}
+    .logo {font-size:80px; color:#ef4444; text-shadow:0 0 20px #ef4444; margin-bottom:10px;}
     .btn {
-      display:block;
-      margin:14px auto;
-      padding:14px 22px;
-      font-size:16px;
-      background:#3b82f6;
-      color:#fff;
-      border:none;
-      border-radius:10px;
-      text-decoration:none;
-      max-width:280px;
-      box-shadow:0 0 10px rgba(59,130,246,0.4);
+      display:inline-block; margin:8px; padding:14px 22px; font-size:16px;
+      background:#ef4444; color:#fff; border:none; border-radius:10px;
+      text-decoration:none; box-shadow:0 0 10px #ef4444;
       transition:background 0.3s, transform 0.2s;
     }
-    .btn:hover {
-      background:#2563eb;
-      transform:translateY(-2px);
+    .btn:hover {background:#dc2626; transform:translateY(-2px);}
+    .section {margin:30px 0; padding:20px; background:#1e293b; border-radius:10px;}
+    label {display:block; margin-top:12px; margin-bottom:4px;}
+    input, select {
+      padding:8px; border-radius:6px; border:none; margin-bottom:8px; width:80%;
+      font-size:14px;
     }
-    .logo {
-      font-size:80px;
-      color:#3b82f6;
-      text-shadow:0 0 20px #3b82f6;
-      margin-bottom:10px;
-    }
-    iframe {
-      margin-top:20px;
-      border:none;
-      border-radius:8px;
-    }
-    .panel {
-      max-width:500px;
-      margin:20px auto;
-      background:#1e293b;
-      padding:20px;
-      border-radius:12px;
-      box-shadow:0 0 10px rgba(59,130,246,0.4);
-    }
-    label {
-      display:block;
-      margin-bottom:8px;
-      font-weight:bold;
-      color:#e2e8f0;
-      text-align:left;
-    }
-    select, input {
-      width:100%;
-      padding:10px;
-      margin-bottom:14px;
-      border:none;
-      border-radius:8px;
-      font-size:16px;
-    }
-    .trade-btn {
-      width:48%;
-      padding:14px;
-      font-size:18px;
-      margin:5px 1%;
-      border:none;
-      border-radius:10px;
-      color:#fff;
-      cursor:pointer;
-      transition:0.2s;
-    }
-    .rise {
-      background:#22c55e;
-    }
-    .fall {
-      background:#ef4444;
-    }
-    .rise:hover {
-      background:#16a34a;
-    }
-    .fall:hover {
-      background:#dc2626;
+    .ticker {
+      background:#0f172a; padding:16px; font-size:24px; border:2px solid #3b82f6;
+      border-radius:8px; margin-bottom:16px;
     }
   </style>
 </head>
 <body>
 
   <div class="logo">X</div>
-  <h1>Chartbotaixtrade Dashboard</h1>
-  <p>Your secure personal trading hub. Access all features below:</p>
+  <h1>Welcome to Chartbotaixtrade Dashboard</h1>
 
-  <a class="btn" href="https://oauth.deriv.com/oauth2/authorize?app_id=76613&scope=payments%20read%20trading_information&redirect_uri=https://ke-com-1.onrender.com/oauth_callback&response_type=code" target="_blank">🎯 Start Live Trading</a>
-  <a class="btn" href="#">📈 Copy Trading (Coming Soon)</a>
-  <a class="btn" href="https://app.deriv.com/bot/" target="_blank">🤖 Run Dbot (Bot Builder)</a>
-  <a class="btn" href="https://app.deriv.com/positions/" target="_blank">📊 Open Positions & CFDs</a>
-  <a class="btn" href="#">💰 Deposit Funds</a>
-  <a class="btn" href="#">🏦 Withdraw Funds</a>
-  <a class="btn" href="index.html">🚪 Logout</a>
+  <div class="section">
+    <h2>📊 Live Market Price</h2>
+    <div class="ticker" id="ticker">Waiting for price...</div>
+  </div>
 
-  <h1 style="margin-top:40px;">📊 Live Market Chart</h1>
-  <iframe src="https://s.tradingview.com/widgetembed/?symbol=DERIV:V75USD&interval=1&theme=dark" width="100%" height="400"></iframe>
-
-  <div class="panel">
-    <h1 style="font-size:24px; color:#facc15;">📈 Rise/Fall Trading</h1>
-    <label>Market</label>
-    <select id="market">
-      <option value="R_100">Volatility 100 Index</option>
-      <option value="R_75" selected>Volatility 75 Index</option>
-      <option value="R_50">Volatility 50 Index</option>
+  <div class="section">
+    <h2>🎯 Binary Trading Panel</h2>
+    <label>Market:</label>
+    <select id="market" onchange="changeMarket()">
+      <option value="R_50">Volatility 50 (1s)</option>
+      <option value="R_100">Volatility 100 (1s)</option>
+      <option value="R_25">Volatility 25 (1s)</option>
+      <option value="R_75">Volatility 75 (1s)</option>
     </select>
 
-    <label>Duration (ticks)</label>
-    <input type="number" id="duration" value="5" min="1" />
+    <label>Duration (ticks):</label>
+    <input type="number" id="duration" value="5" />
 
-    <label>Stake Amount ($)</label>
-    <input type="number" id="stake" value="1" min="0.35" step="0.01" />
+    <label>Stake ($):</label>
+    <input type="number" id="stake" value="1" />
 
-    <div>
-      <button class="trade-btn rise" onclick="placeTrade('rise')">📈 Rise</button>
-      <button class="trade-btn fall" onclick="placeTrade('fall')">📉 Fall</button>
+    <div style="margin-top:14px;">
+      <button class="btn" onclick="placeTrade('CALL')">📈 Rise</button>
+      <button class="btn" onclick="placeTrade('PUT')">📉 Fall</button>
     </div>
   </div>
 
+  <div class="section">
+    <h2>📋 Trading Tools</h2>
+    <a class="btn" href="#">📈 Copy Trading (Coming Soon)</a>
+    <a class="btn" href="https://app.deriv.com/bot/" target="_blank">🤖 Run Dbot</a>
+    <a class="btn" href="https://app.deriv.com/positions/" target="_blank">📊 Open Positions</a>
+  </div>
+
+  <div class="section">
+    <h2>💳 Cashier</h2>
+    <a class="btn" href="#">💰 Deposit</a>
+    <a class="btn" href="#">🏦 Withdraw</a>
+  </div>
+
+  <a class="btn" href="index.html">🚪 Logout</a>
+
   <script>
+    let currentMarket = 'R_50';
+
+    function changeMarket() {
+      currentMarket = document.getElementById('market').value;
+      document.getElementById('ticker').textContent = 'Fetching price for ' + currentMarket + '...';
+      // You’ll wire this to WebSocket live price here
+    }
+
     function placeTrade(direction) {
-      const market = document.getElementById('market').value;
       const duration = document.getElementById('duration').value;
       const stake = document.getElementById('stake').value;
-      alert(`You placed a ${direction.toUpperCase()} trade on ${market} for ${duration} ticks with $${stake} stake.`);
-      // ⚠️ Replace this alert with real WebSocket trade execution later
+      alert(`Placing ${direction} trade on ${currentMarket} for ${duration} ticks with $${stake}.`);
+      // Replace this with WebSocket trade call later
     }
   </script>
 
 </body>
-</html>
+  </html>
